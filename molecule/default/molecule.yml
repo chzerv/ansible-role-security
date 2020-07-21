@@ -10,7 +10,7 @@ lint: |
 platforms:
   - name: instance
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-debian10}-ansible:latest"
-    command: "/sbin/init"
+    command: ${DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
