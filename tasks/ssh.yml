@@ -52,10 +52,10 @@
     validate: "sshd -T -f %s"
     insertafter: EOF
   notify: restart sshd
-  when:
-    - security_ssh_disable_weak_algorithms | bool
-    - ansible_os_family == "Debian" and ansible_distribution_major_version <= 9
-    - ansible_os_family == "RedHat" and ansible_distribution_major_version <= 7
+  when: >
+    (security_ssh_disable_weak_algorithms | bool) and
+    (ansible_os_family == "Debian" and ansible_distribution_major_version | int > 9) or
+    (ansible_os_family == "RedHat" and ansible_distribution_major_version | int > 7)
 
 - name: Force handlers to run immediately.
   meta: flush_handlers
