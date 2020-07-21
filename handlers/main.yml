@@ -2,4 +2,4 @@
 - name: restart sshd
   service:
     name: "{{ security_ssh_daemon_name }}"
-    state: "{{ security_ssh_service_state }}"
+    state: "{{ security_ssh_handler_state }}"

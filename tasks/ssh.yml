@@ -1,0 +1,78 @@
+---
+- name: Inform SELinux about the new SSH port.
+  seport:
+    ports: "{{ security_ssh_port }}"
+    proto: tcp
+    setype: ssh_port_t
+    state: present
+  when:
+    - ansible_os_family == "RedHat"
+    - security_ssh_port != 22
+
+- name: Workaround 'missing separation directory' error in Debian.
+  file:
+    path: /var/run/sshd
+    state: directory
+  when: ansible_os_family == "Debian"
+
+- name: Update sshd configuration.
+  lineinfile:
+    dest: "{{ security_ssh_config_path }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    backup: true
+    validate: "sshd -T -f %s"
+  with_items:
+    - regexp: "^Port"
+      line: "Port {{ security_ssh_port }}"
+    - regexp: "^PubkeyAuthentication"
+      line: "PubkeyAuthentication {{ security_ssh_key_based_authentication }}"
+    - regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication {{ security_ssh_password_authentication }}"
+    - regexp: "^PermitEmptyPasswords"
+      line: "PermitEmptyPasswords {{ security_ssh_permit_empty_password }}"
+    - regexp: "^ChallengeResponseAuthentication"
+      line: "ChallengeResponseAuthentication {{ security_ssh_challenge_response_auth }}"
+    - regexp: "^GSSAPIAuthentication"
+      line: "GSSAPIAuthentication {{ security_ssh_gss_api_authentication }}"
+    - regexp: "^PermitRootLogin"
+      line: "PermitRootLogin {{ security_ssh_permit_root_login }}"
+    - regexp: "^X11Forwarding"
+      line: "X11Forwarding {{ security_ssh_x11_forwarding }}"
+    - regexp: "^UseDNS"
+      line: "UseDNS {{ security_ssh_usedns }}"
+  notify: restart sshd
+
+- name: Disable weak algorithms and ciphers.
+  blockinfile:
+    path: "{{ security_ssh_config_path }}"
+    block: "{{ lookup('template', 'weak_algorithms_and_ciphers.j2') }}"
+    backup: true
+    validate: "sshd -T -f %s"
+    insertafter: EOF
+  notify: restart sshd
+  when:
+    - security_ssh_disable_weak_algorithms | bool
+    - ansible_os_family == "Debian" and ansible_distribution_major_version <= 9
+    - ansible_os_family == "RedHat" and ansible_distribution_major_version <= 7
+
+- name: Force handlers to run immediately.
+  meta: flush_handlers
+
+- name: Check if ~/.ssh/authorized_keys exists.
+  stat:
+    path: "~/.ssh/authorized_keys"
+  register: authorized_keys_exists
+  when: security_ssh_secure_authorized_keys_file | bool
+
+- name: Set read-only permissions on authorized_keys.
+  file:
+    path: "~/.ssh/authorized_keys"
+    mode: "0400"
+  when: authorized_keys_exists.stat.exists
+
+- name: SSH | Enable sshd at boot.
+  service:
+    name: "{{ security_ssh_daemon_name }}"
+    enabled: true
