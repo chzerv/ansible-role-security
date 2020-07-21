@@ -1,5 +1,7 @@
 # Ansible Role: Security
 
+[![Build Status](https://travis-ci.com/chzerv/ansible-role-security.svg?branch=master)](https://travis-ci.com/chzerv/ansible-role-security)
+
 **Remember, securing YOUR PC/server is YOUR OWN responsibility.** This is a very basic template and it should be used as a _template_, not a complete solution.
 
 This role performs some basic security configuration on RedHat and Debian based Linux systems, like:
