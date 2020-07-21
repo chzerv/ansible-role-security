@@ -1,7 +1,61 @@
 ---
 - name: Converge
   hosts: all
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt:
+        upgrade: true
+        update_cache: true
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Ensure required packages are installed (RedHat).
+      yum:
+        name:
+          - openssh-server
+          - openssh-clients
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Ensure required packages are installed (Fedora).
+      yum:
+        name: procps
+        state: present
+      when: ansible_distribution == 'Fedora'
+
+    - name: Install EPEL repo (RedHat-based systems).
+      yum:
+        name: epel-release
+        state: present
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_distribution != "Fedora"
+
+    - name: Ensure required packages are installed (Debian).
+      apt:
+        name:
+          - openssh-server
+          - openssh-client
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Create SSH keys.
+      block:
+        - name: RSA keys.
+          openssh_keypair:
+            path: /etc/ssh/ssh_host_rsa_key
+            type: rsa
+        - name: DSA keys.
+          openssh_keypair:
+            path: /etc/ssh/ssh_host_dsa_key
+            type: dsa
+        - name: ECDSA keys.
+          openssh_keypair:
+            path: /etc/ssh/ssh_host_ecdsa_key
+            type: ecdsa
+
   tasks:
-    - name: "Include security"
+    - name: "Include hardening"
       include_role:
         name: "security"
