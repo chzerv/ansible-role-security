@@ -7,7 +7,6 @@
       apt:
         upgrade: true
         update_cache: true
-        cache_valid_time: 3600
       when: ansible_os_family == "Debian"
 
     - name: Ensure required packages are installed (RedHat).
@@ -17,12 +16,6 @@
           - openssh-clients
         state: present
       when: ansible_os_family == "RedHat"
-
-    - name: Ensure required packages are installed (Fedora).
-      yum:
-        name: procps
-        state: present
-      when: ansible_distribution == 'Fedora'
 
     - name: Install EPEL repo (RedHat-based systems).
       yum:
