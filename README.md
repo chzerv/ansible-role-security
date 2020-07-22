@@ -89,6 +89,13 @@ security_kern_restrict_kptr: 1
 
 > Hide kernel symbol addresses. A value of `1` will hide them from regular users, while a value of `2` will also hide them from the root user.
 
+```yaml
+security_kern_sysctl_opts:
+  net.ipv4.ip_forward: 0
+```
+
+> User defined sysctl settings. Any additional settings have follow the same format: `key: value`.
+
 ## Dependencies
 
 None.

@@ -8,4 +8,4 @@
 
 - include_tasks: cleanup-packages.yml
 
-- include_tasks: kernel-hardening.yml
+- include_tasks: sysctl.yml
