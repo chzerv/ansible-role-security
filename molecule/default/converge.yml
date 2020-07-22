@@ -2,6 +2,11 @@
 - name: Converge
   hosts: all
 
+  vars:
+    security_clean_deb_packages:
+      - xinetd
+      - telnet-server
+
   pre_tasks:
     - name: Update apt cache.
       apt:

@@ -5,3 +5,5 @@
 - include_tasks: ssh.yml
 
 - include_tasks: fail2ban.yml
+
+- include: cleanup-packages.yml

@@ -15,6 +15,7 @@ This role performs some basic security configuration on RedHat and Debian based 
   - Disable known weak algorithms.
 - Set up automatic updates.
 - Basic kernel-hardening.
+- Remove packages of your choice.
 
 ## Requirements
 
@@ -52,6 +53,21 @@ None.
 
 - `fail2ban` has too many options too put them all in variables. The configuration for `jail.local` and `sshd.local` are in `templates/etc/fail2ban/jail.local.j2` and `templates/etc/fail2ban/jail.d/sshd.local.j2`. Change these templates according to your needs.
 - The service will be **enabled** at boot, but not started automatically.
+
+### Remove packages
+
+|             Name              | Default value |                 Description                  |
+| :---------------------------: | :-----------: | :------------------------------------------: |
+| security_cleanup_deb_packages |       -       | A list of packages to remove (Debian family) |
+| security_cleanup_rpm_packages |       -       | A list of packages to remove (RedHat family) |
+
+e.g.,
+
+```yaml
+security_cleanup_deb_packages:
+  - xinetd
+  - telnet-server
+```
 
 ## Dependencies
 

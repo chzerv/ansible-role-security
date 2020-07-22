@@ -19,3 +19,6 @@ security_ssh_handler_state: restarted
 
 security_fail2ban_enabled: true
 security_fail2ban_harden_service: true
+
+security_cleanup_deb_packages: []
+security_cleanup_rpm_packages: []
