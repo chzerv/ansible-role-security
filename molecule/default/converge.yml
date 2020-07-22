@@ -3,7 +3,10 @@
   hosts: all
 
   vars:
-    security_clean_deb_packages:
+    security_cleanup_deb_packages:
+      - xinetd
+      - telnet-server
+    security_cleanup_rpm_packages:
       - xinetd
       - telnet-server
 
