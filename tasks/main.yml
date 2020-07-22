@@ -6,4 +6,4 @@
 
 - include_tasks: fail2ban.yml
 
-- include: cleanup-packages.yml
+- include_tasks: cleanup-packages.yml
