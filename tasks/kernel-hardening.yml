@@ -1,0 +1,30 @@
+---
+- name: Disable kexec.
+  sysctl:
+    name: kernel.kexec_load_disabled
+    value: "{{ security_kern_disable_kexec }}"
+    sysctl_file: /etc/sysctl.d/51-kexec-disable.conf
+    state: present
+    sysctl_set: true
+    reload: true
+  when: security_kern_disable_kexec | int == 1
+
+- name: Restrict dmesg access.
+  sysctl:
+    name: kernel.dmesg_restrict
+    value: "{{ security_kern_restrict_dmesg }}"
+    sysctl_file: /etc/sysctl.d/51-dmesg-restrict.conf
+    state: present
+    sysctl_set: true
+    reload: true
+  when: security_kern_restrict_dmesg | int == 1
+
+- name: Restrict access to kernel pointers.
+  sysctl:
+    name: kernel.kptr_restrict
+    value: "{{ security_kern_restrict_kptr }}"
+    sysctl_file: /etc/sysctl.d/51-kptr-restrict.conf
+    state: present
+    sysctl_set: true
+    reload: true
+  when: (security_kern_restrict_kptr | int == 1) or (security_kern_restrict_kptr | int == 2)

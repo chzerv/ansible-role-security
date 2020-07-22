@@ -69,6 +69,26 @@ security_cleanup_deb_packages:
   - telnet-server
 ```
 
+### Kernel hardening
+
+```yaml
+security_kern_disable_kexec: 1
+```
+
+> Don't allow replacing the current running kernel. Available values are `0` and `1`.
+
+```yaml
+security_kern_restrict_dmesg: 1
+```
+
+> Only allow log access to users with the `CAP_SYS_ADMIN` capability set (usually the _root_ user).
+
+```yaml
+security_kern_restrict_kptr: 1
+```
+
+> Hide kernel symbol addresses. A value of `1` will hide them from regular users, while a value of `2` will also hide them from the root user.
+
 ## Dependencies
 
 None.

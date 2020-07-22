@@ -7,3 +7,5 @@
 - include_tasks: fail2ban.yml
 
 - include_tasks: cleanup-packages.yml
+
+- include_tasks: kernel-hardening.yml
