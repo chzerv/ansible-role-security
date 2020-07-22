@@ -41,4 +41,5 @@
     sysctl_set: true
     state: present
     reload: yes
-  with_dict: "{{ security_sysctl_opts }}"
+  ignore_errors: true
+  with_dict: "{{ security_kern_sysctl_opts }}"
