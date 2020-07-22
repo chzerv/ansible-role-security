@@ -29,4 +29,3 @@ security_kern_restrict_kptr: "1"
 
 security_kern_sysctl_opts:
   net.ipv4.ip_forward: 0
-
