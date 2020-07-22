@@ -55,7 +55,8 @@
   when: >
     (security_ssh_disable_weak_algorithms | bool) and
     (ansible_os_family == "Debian" and ansible_distribution_major_version | int > 9) or
-    (ansible_os_family == "RedHat" and ansible_distribution_major_version | int > 7)
+    (ansible_os_family == "RedHat" and ansible_distribution_major_version | int > 7) or
+    (ansible_distribution == "Ubuntu" and ansible_distribution_major_version | int > 20)
 
 - name: Force handlers to run immediately.
   meta: flush_handlers
