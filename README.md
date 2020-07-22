@@ -96,6 +96,18 @@ security_kern_sysctl_opts:
 
 > User defined sysctl settings. Any additional settings have follow the same format: `key: value`.
 
+```yaml
+security_kern_hidepid_value: 2
+```
+
+> Hide a user's processes from other users. A value of `1` will let a user only see his own processes in tools like `top`, but he **will be able** to see processes' IDs in `/proc`. A value of `2` will also hide the IDs.
+
+```yaml
+security_kern_hidepid_mount_opts: nosuid,nodev,noexec,hidepid={{ security_kern_hidepid_value }},gid=proc
+```
+
+> A list of the mounting options to be used for `/proc`. **Note** that a `gid=proc` is specified, which means that users or services of the `proc` group be able to access `proc/$pid`.
+
 ## Dependencies
 
 None.

@@ -9,3 +9,5 @@
 - include_tasks: cleanup-packages.yml
 
 - include_tasks: sysctl.yml
+
+- include_tasks: restrict-access.yml
