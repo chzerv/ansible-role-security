@@ -43,6 +43,16 @@ None.
 - If your server is open to the internet, it's advised to change the default SSH port. Not doing so can lead to huge amounts of unwanted traffic.
 - If `X11 forwarding` is a crucial part of your workflow, make sure to set `security_ssh_x11_forwarding` to `yes`.
 
+### fail2ban
+
+|               Name               | Default values |                                        Description                                         |
+| :------------------------------: | :------------: | :----------------------------------------------------------------------------------------: |
+|    security_fail2ban_enabled     |      true      |                                      Enable fail2ban                                       |
+| security_fail2ban_harden_service |      true      | The fail2ban process itself runs as _root_, so we use systemd to harden the process a bit. |
+
+- `fail2ban` has too many options too put them all in variables. The configuration for `jail.local` and `sshd.local` are in `templates/etc/fail2ban/jail.local.j2` and `templates/etc/fail2ban/jail.d/sshd.local.j2`. Change these templates according to your needs.
+- The service will be **enabled** at boot, but not started automatically.
+
 ## Dependencies
 
 None.

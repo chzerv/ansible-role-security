@@ -1,0 +1,33 @@
+---
+- name: Set distribution version specific variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+      skip: true
+
+- name: Install required packages.
+  package:
+    name: "{{ security_fail2ban_packages }}"
+    state: present
+
+- name: Copy fail2ban local jail to the remote host.
+  template:
+    src: etc/fail2ban/jail.local.j2
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy fail2ban custom sshd jail to the remote host.
+  template:
+    src: etc/fail2ban/jail.d/sshd.local.j2
+    dest: /etc/fail2ban/jail.d/sshd.local
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable fail2ban at boot.
+  service:
+    name: fail2ban
+    enabled: true

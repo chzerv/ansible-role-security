@@ -16,3 +16,6 @@ security_ssh_disable_weak_algorithms: true
 security_ssh_secure_authorized_keys_file: true
 
 security_ssh_handler_state: restarted
+
+security_fail2ban_enabled: true
+security_fail2ban_harden_service: true
