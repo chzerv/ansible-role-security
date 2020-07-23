@@ -23,6 +23,7 @@ security_fail2ban_harden_service: true
 security_cleanup_deb_packages: []
 security_cleanup_rpm_packages: []
 
+security_kern_go_hardcore: true
 security_kern_disable_kexec: "1"
 security_kern_restrict_dmesg: "1"
 security_kern_restrict_kptr: "1"
