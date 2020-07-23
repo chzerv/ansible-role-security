@@ -2,3 +2,7 @@
 - name: Kernel hardening using sysctl options.
   include_tasks: sysctl-kernel.yml
   when: security_kern_go_hardcore | bool
+
+- name: TCP/IP stack hardening using sysctl options.
+  include_tasks: sysctl-tcp_ip_stack.yml
+  when: security_net_go_hardcore | bool

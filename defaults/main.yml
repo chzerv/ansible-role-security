@@ -33,3 +33,11 @@ security_kern_sysctl_opts:
 
 security_kern_hidepid_value: "2"
 security_kern_hidepid_mount_opts: "nosuid,nodev,noexec,hidepid={{ security_kern_hidepid_value }},gid=proc"
+
+security_net_go_hardcore: true
+security_net_syn_cookies_protection: "1"
+security_net_default_rp_filter: "1"
+security_net_all_rp_filter: "1"
+security_net_default_icmp_redirect_sending: "0"
+security_net_all_icmp_redirect_sending: "0"
+security_net_icmp_accept_redirects: "0"
