@@ -11,3 +11,8 @@
 - include_tasks: sysctl.yml
 
 - include_tasks: restrict-access.yml
+
+- include_tasks: autoupdates-Debian.yml
+  when:
+    - ansible_os_family == "Debian"
+    - security_autoupdates_enabled | bool

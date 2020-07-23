@@ -142,6 +142,46 @@ security_net_icmp_accept_redirects: "0"
 
 > Don't accept ICMP redirects. This can protect against MITM (Man In The Middle) attacks.
 
+### Auto updates
+
+```yaml
+security_autoupdates_enabled: true
+```
+
+> Enable automatic updates.
+
+```yaml
+security_autoupdates_type: "security"
+```
+
+> What type of updates to perform automatically. Valid values are `security` (only download security related updates), `updates` (only download regular updates) and `all` (download both security and regular updates).
+
+```yaml
+security_autoupdates_mail_to: "root"
+```
+
+> The mail address to which notifications about updates will be sent. **This requires a mail server already up and running**. If you don't have a mail server, or simply don't need mail notifications, leave this to the default value.
+
+```yaml
+security_autoupdates_mail_on_error: true
+```
+
+> Only send mail notifications when something goes wrong.
+
+```yaml
+security_autoupdates_reboot: "true"
+security_autoupdates_reboot_time: "04:00"
+```
+
+> Reboot the system after the updates are done, at the specified time.
+
+```yaml
+security_autoupdates_blacklist:
+  - "linux-"
+```
+
+> Make listed packages ignore automatic updates. By default, only kernel related packages are ignored. **Note that special characters must be escaped.**
+
 ## Dependencies
 
 None.

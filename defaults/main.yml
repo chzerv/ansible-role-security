@@ -41,3 +41,16 @@ security_net_all_rp_filter: "1"
 security_net_default_icmp_redirect_sending: "0"
 security_net_all_icmp_redirect_sending: "0"
 security_net_icmp_accept_redirects: "0"
+
+security_autoupdates_enabled: true
+
+security_autoupdates_type: security
+
+security_autoupdates_mail_to: root
+security_autoupdates_mail_on_error: true
+
+security_autoupdates_reboot: true
+security_autoupdates_reboot_time: 03:00
+
+security_autoupdates_blacklist:
+  - linux-
