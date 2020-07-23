@@ -71,20 +71,23 @@ security_cleanup_deb_packages:
 
 ### Kernel hardening
 
+**Note:** setting any of these variables to `0` will de-activate them.
+**Note2:** make sure to quote (`""`) the values, as shown below.
+
 ```yaml
-security_kern_disable_kexec: 1
+security_kern_disable_kexec: "1"
 ```
 
 > Don't allow replacing the current running kernel. Available values are `0` and `1`.
 
 ```yaml
-security_kern_restrict_dmesg: 1
+security_kern_restrict_dmesg: "1"
 ```
 
 > Only allow log access to users with the `CAP_SYS_ADMIN` capability set (usually the _root_ user).
 
 ```yaml
-security_kern_restrict_kptr: 1
+security_kern_restrict_kptr: "1"
 ```
 
 > Hide kernel symbol addresses. A value of `1` will hide them from regular users, while a value of `2` will also hide them from the root user.
@@ -97,7 +100,7 @@ security_kern_sysctl_opts:
 > User defined sysctl settings. Any additional settings have follow the same format: `key: value`.
 
 ```yaml
-security_kern_hidepid_value: 2
+security_kern_hidepid_value: "2"
 ```
 
 > Hide a user's processes from other users. A value of `1` will let a user only see his own processes in tools like `top`, but he **will be able** to see processes' IDs in `/proc`. A value of `2` will also hide the IDs.
