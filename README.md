@@ -154,7 +154,7 @@ security_autoupdates_enabled: true
 security_autoupdates_type: "security"
 ```
 
-> What type of updates to perform automatically. Valid values are `security` (only download security related updates), `updates` (only download regular updates) and `all` (download both security and regular updates).
+> What type of updates to perform automatically. Valid values are `security` (only download security related updates) and `all` (download all updates).
 
 ```yaml
 security_autoupdates_mail_to: "root"
