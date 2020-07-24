@@ -54,3 +54,5 @@ security_autoupdates_reboot_time: 03:00
 
 security_autoupdates_blacklist:
   - linux-
+
+security_autoupdates_apply_updates: "yes"

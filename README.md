@@ -187,6 +187,12 @@ security_autoupdates_blacklist:
 
 > Make listed packages ignore automatic updates. By default, only kernel related packages are ignored. **Note that special characters must be escaped.** **Debian-based distributions only!**
 
+```yaml
+security_autoupdates_apply_updates: "yes"
+```
+
+> Also install updates after downloading them. **RedHat-based systems only!**
+
 ## Dependencies
 
 None.

@@ -16,3 +16,8 @@
   when:
     - ansible_os_family == "Debian"
     - security_autoupdates_enabled | bool
+
+- include_tasks: autoupdates-RedHat.yml
+  when:
+    - ansible_os_family == "RedHat"
+    - security_autoupdates_enabled | bool
