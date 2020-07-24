@@ -204,9 +204,25 @@ None.
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: server
+  vars_files:
+    - vars/main.yml
+
+  roles:
+    - { role: chzerv.ansible_role_security }
+```
+
+The `vars/main.yml` file:
+
+```yaml
+security_kern_go_hardcore: true
+security_net_go_hardcore: true
+security_autoupdates_enabled: true
+security_autoupdates_type: "security"
+security_fail2ban_enabled: true
+security_fail2ban_harden_service: true
+```
 
 ## License
 
