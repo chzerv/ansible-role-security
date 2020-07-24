@@ -15,6 +15,7 @@ This role performs some basic security configuration on RedHat and Debian based 
   - Disable known weak algorithms.
 - Set up automatic updates.
 - Basic kernel-hardening.
+- Basic TCP/IP stack hardening.
 - Remove packages of your choice.
 
 ## Requirements
@@ -71,8 +72,10 @@ security_cleanup_deb_packages:
 
 ### Kernel hardening
 
-**Note:** setting any of these variables to `0` will de-activate them.
-**Note2:** make sure to quote (`""`) the values, as shown below.
+**Notes:**
+
+1. setting any of these variables to `0` will de-activate them.
+2. make sure to quote (`""`) the values, as shown below.
 
 ```yaml
 security_kern_disable_kexec: "1"
@@ -97,24 +100,26 @@ security_kern_sysctl_opts:
   net.ipv4.ip_forward: 0
 ```
 
-> User defined sysctl settings. Any additional settings have follow the same format: `key: value`.
+> User defined sysctl settings. Any additional settings have to follow the same format: `key: value`.
 
 ```yaml
 security_kern_hidepid_value: "2"
 ```
 
-> Hide a user's processes from other users. A value of `1` will let a user only see his own processes in tools like `top`, but he **will be able** to see processes' IDs in `/proc`. A value of `2` will also hide the IDs.
+> Hide a user's processes from other users. A value of `1` will let a user only see his own processes in tools like `top`, but he **will be able to** see processes' IDs in `/proc`. A value of `2` will also hide the IDs.
 
 ```yaml
 security_kern_hidepid_mount_opts: nosuid,nodev,noexec,hidepid={{ security_kern_hidepid_value }},gid=proc
 ```
 
-> A list of the mounting options to be used for `/proc`. **Note** that a `gid=proc` is specified, which means that users or services of the `proc` group be able to access `proc/$pid`.
+> A list of the mounting options to be used for `/proc`. **Note** that a `gid=proc` is specified, which means that users or services of the `proc` group will be able to access `proc/$pid`.
 
 ### TCP/IP stack hardening
 
-**Note:** setting any of these variables to `0` will de-activate them.
-**Note2:** make sure to quote (`""`) the values, as shown below.
+**Notes:**
+
+1. setting any of these variables to `0` will de-activate them.
+2. make sure to quote (`""`) the values, as shown below.
 
 ```yaml
 security_net_syn_cookies_protection: "1"
@@ -166,21 +171,21 @@ security_autoupdates_mail_to: "root"
 security_autoupdates_mail_on_error: true
 ```
 
-> Only send mail notifications when something goes wrong.
+> Only send mail notifications when something goes wrong. **Debian-based distributions only!**
 
 ```yaml
 security_autoupdates_reboot: "true"
 security_autoupdates_reboot_time: "04:00"
 ```
 
-> Reboot the system after the updates are done, at the specified time.
+> Reboot the system after the updates are done, at the specified time. **Debian-based distributions only!**
 
 ```yaml
 security_autoupdates_blacklist:
   - "linux-"
 ```
 
-> Make listed packages ignore automatic updates. By default, only kernel related packages are ignored. **Note that special characters must be escaped.**
+> Make listed packages ignore automatic updates. By default, only kernel related packages are ignored. **Note that special characters must be escaped.** **Debian-based distributions only!**
 
 ## Dependencies
 
