@@ -13,8 +13,9 @@
     domain: "*"
     limit_type: hard
     limit_item: core
-    value: 0
+    value: "0"
     comment: Disable core dumps for all users since they can contain sensitive information.
+  when: security_disable_core_dumps | bool
 
 - name: Enforce an 'nproc' limit.
   block:
@@ -24,7 +25,7 @@
         domain: "*"
         limit_type: hard
         limit_item: nproc
-        value: "{{ security_limits_nproc_limit_value }}"
+        value: "{{ security_nproc_limit_value }}"
 
     - name: Set the nproc hardlimit for the root user.
       pam_limits:
@@ -32,4 +33,5 @@
         domain: root
         limit_type: hard
         limit_item: nproc
-        value: 65536
+        value: "65536"
+  when: security_nproc_limit | bool
