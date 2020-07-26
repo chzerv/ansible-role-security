@@ -22,3 +22,13 @@
   when:
     - ansible_os_family == "RedHat"
     - security_autoupdates_enabled | bool
+
+- include_tasks: pam-RedHat.yml
+  when:
+    - security_secure_pam | bool
+    - ansible_os_family == "RedHat"
+
+- include_tasks: pam-Debian.yml
+  when:
+    - security_secure_pam | bool
+    - ansible_os_family == "Debian"

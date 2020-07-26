@@ -56,3 +56,5 @@ security_autoupdates_blacklist:
   - linux-
 
 security_autoupdates_apply_updates: "yes"
+
+security_secure_pam: true

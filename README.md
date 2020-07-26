@@ -196,6 +196,17 @@ security_autoupdates_apply_updates: "yes"
 
 > Also install updates after downloading them. **RedHat-based systems only!**
 
+### PAM
+
+```yaml
+security_secure_pam: true
+```
+
+> Security focused PAM configuration. This includes:
+>
+> - Enforce users to use strong passwords (at least 12 characters, with digits, lowercase, uppercase and symbols).
+> - Lock user accounts after 4 consecutive failed login attempts.
+
 ## Dependencies
 
 None.

@@ -1,0 +1,32 @@
+---
+- name: Enforce users to use strong passwords (Debian systems).
+  block:
+    - name: Install libpam-pwquality.
+      apt:
+        name: libpam-pwquality
+        update_cache: true
+        state: present
+
+    - name: Update pwquality module arguments.
+      pamd:
+        name: common-password
+        type: password
+        control: "requisite"
+        module_path: pam_pwquality.so
+        module_arguments: " retry=3
+          minlen=12
+          lcredit=-1
+          ucredit=-1
+          dcredit=-1
+          ocredit=-1
+          enforce_for_root"
+        state: args_present
+        backup: true
+
+- name: Lock user account after three failed login attempts (Debian systems).
+  lineinfile:
+    path: /etc/pam.d/common-auth
+    insertafter: '^auth\s*\[success=1\sdefault=ignore\]\s*pam_unix\.so nullok_secure'
+    line: "auth    required    pam_tally2.so onerr=fail deny=4 audit unlock_time=3600"
+    firstmatch: true
+    backup: true
