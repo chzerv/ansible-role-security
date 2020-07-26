@@ -1,0 +1,37 @@
+---
+- name: Create limits.d directory if it doesn't exist.
+  file:
+    path: /etc/security/limits.d
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Disable core dumps.
+  pam_limits:
+    dest: /etc/security/limits.d/10-custom-limits.conf
+    domain: "*"
+    limit_type: hard
+    limit_item: core
+    value: "0"
+    comment: Disable core dumps for all users since they can contain sensitive information.
+  when: security_disable_core_dumps | bool
+
+- name: Enforce an 'nproc' limit.
+  block:
+    - name: Set the global nproc hardlimit.
+      pam_limits:
+        dest: /etc/security/limits.d/10-custom-limits.conf
+        domain: "*"
+        limit_type: hard
+        limit_item: nproc
+        value: "{{ security_nproc_limit_value }}"
+
+    - name: Set the nproc hardlimit for the root user.
+      pam_limits:
+        dest: /etc/security/limits.d/10-custom-limits.conf
+        domain: root
+        limit_type: hard
+        limit_item: nproc
+        value: "65536"
+  when: security_nproc_limit | bool

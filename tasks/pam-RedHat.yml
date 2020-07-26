@@ -17,6 +17,7 @@
       enforce_for_root"
     state: args_present
     backup: true
+  when: security_enforce_strong_passwords | bool
 
 - name: Lock user account after three failed login attempts (RedHat systems).
   block:
@@ -56,3 +57,4 @@
         insertafter: "^account.*"
         line: "account   required    pam_faillock.so"
         backup: true
+  when: security_lock_after_failed_logins | bool
