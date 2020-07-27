@@ -1,0 +1,50 @@
+---
+- name: Enforce users to use strong passwords (Archlinux systems)
+  block:
+    - name: Install cracklib
+      pacman:
+        name: cracklib
+        state: present
+
+    - name: Enable pam_cracklib.so.
+      replace:
+        path: /etc/pam.d/passwd
+        regexp: '^#password\s*required\s*pam_cracklib\.so.*'
+        replace: >
+          password\trequired\tpam_cracklib.so
+          retry=3
+          minlen=12
+          difok=4
+          lcredit=-1
+          dcredit=-1
+          ocredit=-1
+          ucredit=-1
+        backup: true
+
+    - name: Remove nullok option from  pam_unix.so.
+      replace:
+        path: /etc/pam.d/passwd
+        regexp: '^password\trequired\tpam_unix\.so sha512 shadow nullok'
+        replace: '#password\trequired\tpam_unix.so sha512 shadow nullok'
+        backup: true
+
+    - name: Add use_authtok option for  pam_unix.so.
+      replace:
+        path: /etc/pam.d/passwd
+        regexp: '^#password\s*required\s*pam_unix\.so sha512 shadow use_authtok'
+        replace: 'password\trequired\tpam_unix.so ssha512 shadow use_authtok'
+        backup: true
+  when: security_enforce_strong_passwords | bool
+
+- name: Lock user account after three failed login attempts (Archlinux systems).
+  replace:
+    path: /etc/pam.d/system-login
+    regexp: '^auth\s*required\s*pam_tally2\.so.*'
+    replace: >
+      auth\trequired\tpam_tally2.so
+      onerr=fail
+      deny=4
+      audit
+      unlock_time=3600
+    backup: true
+  when: security_lock_after_failed_logins | bool
