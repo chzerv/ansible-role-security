@@ -15,3 +15,12 @@
   when:
     - security_cleanup_rpm_packages is defined
     - ansible_os_family == "RedHat"
+
+- name: Remove unnecessary pacman packages.
+  pacman:
+    name: "{{ security_cleanup_pacman_packages }}"
+    state: absent
+    extra_args: --remove --nosave --recursive
+  when:
+    - security_cleanup_pacman_packages is defined
+    - ansible_os_family == "Archlinux"

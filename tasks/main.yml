@@ -33,6 +33,11 @@
     - security_secure_pam | bool
     - ansible_os_family == "Debian"
 
+- include_tasks: pam-Archlinux.yml
+  when:
+    - security_secure_pam | bool
+    - ansible_os_family == "Archlinux"
+
 - include_tasks: limits.yml
   when:
     - security_secure_pam | bool

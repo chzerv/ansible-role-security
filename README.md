@@ -4,7 +4,7 @@
 
 **Remember, securing YOUR PC/server is YOUR OWN responsibility.** This is a very basic template and it should be used as a _template_, not a complete solution.
 
-This role performs some basic security configuration on RedHat and Debian based Linux systems, like:
+This role performs some basic security configuration on RedHat/Debian/Archlinux based Linux systems, like:
 
 - Install and configure [fail2ban](https://www.fail2ban.org/wiki/index.php/Main_Page) to monitor bad SSH logins.
 - Basic SSH hardening like
