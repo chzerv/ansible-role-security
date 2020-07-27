@@ -41,6 +41,12 @@
         state: present
       when: ansible_os_family == "Debian"
 
+    - name: Ensure required packages are installed (ArchLinux).
+      pacman:
+        name: openssh
+        state: present
+      when: ansible_os_family == "Archlinux"
+
     - name: Create SSH keys.
       block:
         - name: RSA keys.
