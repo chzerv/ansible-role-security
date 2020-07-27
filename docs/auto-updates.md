@@ -3,6 +3,8 @@
 **Note:** The configurations for `unattended-upgrades`, `dnf-automatic` and `yum-cron` are in `templates/etc/apt/apt.conf.d/`, `templates/etc/dnf/` and `templates/etc/yum`, respectively. For any changes
 that cannot be done through the defined Ansible variables, feel free to change those templates.
 
+**Note2:** Automatic updates are only available for RedHat and Debian based systems. Auto-updating Archlinux seems like a risk.
+
 ```yaml
 security_autoupdates_enabled: true
 ```
