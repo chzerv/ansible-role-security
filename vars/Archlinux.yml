@@ -1,0 +1,6 @@
+---
+security_ssh_config_path: /etc/ssh/sshd_config
+security_ssh_daemon_name: sshd
+
+security_fail2ban_packages:
+  - fail2ban
