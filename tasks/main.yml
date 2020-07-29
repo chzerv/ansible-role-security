@@ -14,7 +14,9 @@
 - include_tasks: restrict-access.yml
 
 - include_tasks: autoupdates-{{ ansible_os_family }}.yml
-  when: security_autoupdates_enabled | bool
+  when:
+    - security_autoupdates_enabled | bool
+    - not ansible_os_family == "Archlinux"
 
 - include_tasks: pam-{{ ansible_os_family }}.yml
   when: security_secure_pam | bool
