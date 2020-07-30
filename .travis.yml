@@ -6,19 +6,20 @@ env:
   global:
     - ROLE_NAME: security
   matrix:
-    - MOLECULE_DISTRO: centos8
-    - MOLECULE_DISTRO: centos7
-    - MOLECULE_DISTRO: ubuntu1804
-    - MOLECULE_DISTRO: ubuntu2004
-    - MOLECULE_DISTRO: debian10
-    - MOLECULE_DISTRO: debian9
-    - MOLECULE_DISTRO: fedora30
-    - MOLECULE_DISTRO: fedora31
-    - MOLECULE_DISTRO: fedora32
+    - IMAGE="debian" TAG="latest"
+    - IMAGE="debian" TAG="stretch"
+    - IMAGE="ubuntu" TAG="latest"
+    - IMAGE="ubuntu" TAG="bionic"
+    - IMAGE="centos" TAG="latest"
+    - IMAGE="centos" TAG="7"
+    - IMAGE="fedora" TAG="latest"
+    - IMAGE="fedora" TAG="31"
+    - IMAGE="fedora" TAG="30"
+    - IMAGE="archlinux" TAG="latest"
 
 install:
   # Install test dependencies.
-  - pip install molecule yamllint ansible-lint docker
+  - pip install docker
 
 before_script:
   # Use actual Ansible Galaxy role name for the project directory.
