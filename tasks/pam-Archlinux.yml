@@ -39,7 +39,7 @@
 - name: Lock user account after three failed login attempts (Archlinux systems).
   replace:
     path: /etc/pam.d/system-login
-    regexp: '^auth\s*required\s*pam_tally2\.so.*'
+    regexp: '^auth\s*required\s*pam_tally2\.so\s*onerr=succeed\s*file=\/var\/log\/tallylog'
     replace: >
       auth\trequired\tpam_tally2.so
       onerr=fail
