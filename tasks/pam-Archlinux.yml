@@ -32,7 +32,7 @@
       replace:
         path: /etc/pam.d/passwd
         regexp: '^#password\s*required\s*pam_unix\.so sha512 shadow use_authtok'
-        replace: 'password\trequired\tpam_unix.so ssha512 shadow use_authtok'
+        replace: 'password\trequired\tpam_unix.so sha512 shadow use_authtok'
         backup: true
   when: security_enforce_strong_passwords | bool
 
