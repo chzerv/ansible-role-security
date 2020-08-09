@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/chzerv/ansible-role-security.svg?branch=master)](https://travis-ci.com/chzerv/ansible-role-security)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Ansible Role](https://img.shields.io/ansible/role/49811?color=dodgerblue)](https://galaxy.ansible.com/chzerv/security)
+[![Ansible Role](https://img.shields.io/ansible/role/50034?color=dodgerblue)](https://galaxy.ansible.com/chzerv/security)
 
 **Remember, securing YOUR PC/server is YOUR OWN responsibility.** This is a very basic template and it should be used as a _template_, not a complete solution.
 
