@@ -5,6 +5,8 @@ name: Ansible Molecule
   push:
     branches:
       - master
+  schedule:
+    - cron: 0 23 * * *
 
 jobs:
   test:
