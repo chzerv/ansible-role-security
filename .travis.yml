@@ -21,12 +21,6 @@ install:
   # Install test dependencies.
   - pip install molecule yamllint ansible-lint docker
 
-before_script:
-  # Use actual Ansible Galaxy role name for the project directory.
-  - cd ../
-  - mv ansible-role-$ROLE_NAME $ROLE_NAME
-  - cd $ROLE_NAME
-
 script:
   # Run tests.
   - molecule test

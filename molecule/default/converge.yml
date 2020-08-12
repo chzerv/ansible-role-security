@@ -65,4 +65,4 @@
   tasks:
     - name: "Include hardening"
       include_role:
-        name: "security"
+        name: "ansible-role-security"
