@@ -26,6 +26,8 @@ galaxy_info:
         - disco
         - eoan
         - focal
+    - name: Archlinux
+      versions: all
 
   galaxy_tags:
     - system
