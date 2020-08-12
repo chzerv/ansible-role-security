@@ -13,8 +13,14 @@ jobs:
     strategy:
       matrix:
         config:
+          - image: "debian"
+            tag: "latest"
+          - image: "debian"
+            tag: stretch
           - image: "ubuntu"
             tag: "latest"
+          - image: "ubuntu"
+            tag: "bionic"
           - image: "centos"
             tag: "latest"
           - image: "centos"
