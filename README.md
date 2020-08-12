@@ -50,7 +50,7 @@ Including an example of how to use your role (for instance, with variables passe
     - vars/main.yml
 
   roles:
-    - { role: chzerv.ansible_role_security }
+    - { role: chzerv.security }
 ```
 
 The `vars/main.yml` file:
