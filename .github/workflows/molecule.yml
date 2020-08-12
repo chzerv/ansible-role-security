@@ -37,8 +37,6 @@ jobs:
     steps:
       - name: Checkout.
         uses: actions/checkout@v2
-        with:
-          path: "${{ github.repository }}"
 
       - name: Set up python3.
         uses: actions/setup-python@v2
