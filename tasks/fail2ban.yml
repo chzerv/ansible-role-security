@@ -27,6 +27,30 @@
     group: root
     mode: 0644
 
+- name: Additional fail2ban service hardening using systemd.
+  block:
+    - name: Create /etc/systemd/system/fail2ban.service.d override directory.
+      file:
+        path: /etc/systemd/system/fail2ban.service.d
+        state: directory
+        mode: 0755
+    - name: Copy the override template.
+      template:
+        src: etc/systemd/system/fail2ban.service.d/override.conf.j2
+        dest: /etc/systemd/system/fail2ban.service.d/override.conf
+        owner: root
+        group: root
+        mode: 0644
+    - name: Create the /var/log/fail2ban/ directory.
+      file:
+        path: /var/log/fail2ban
+        state: directory
+        mode: 0755
+    - name: Reload systemd daemon.
+      systemd:
+        daemon_reload: true
+  when: security_fail2ban_harden_service | bool
+
 - name: Enable fail2ban at boot.
   service:
     name: fail2ban
