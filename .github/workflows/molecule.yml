@@ -38,7 +38,7 @@ jobs:
       - name: Checkout.
         uses: actions/checkout@v2
         with:
-          path: "chzerv.security"
+          path: "security"
 
       - name: Set up python3.
         uses: actions/setup-python@v2
