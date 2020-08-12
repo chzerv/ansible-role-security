@@ -1,6 +1,7 @@
 # Ansible Role: Security
 
 [![Build Status](https://travis-ci.com/chzerv/ansible-role-security.svg?branch=master)](https://travis-ci.com/chzerv/ansible-role-security)
+![Ansible Molecule](https://github.com/chzerv/ansible-role-security/workflows/Ansible%20Molecule/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Ansible Role](https://img.shields.io/ansible/role/50034?color=dodgerblue)](https://galaxy.ansible.com/chzerv/security)
 
