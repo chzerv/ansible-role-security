@@ -9,7 +9,6 @@
     state: present
     sysctl_set: true
     reload: true
-  ignore_errors: true
   when: security_kern_disable_kexec | int == 1
 
 - name: Restrict dmesg access.
@@ -20,7 +19,6 @@
     state: present
     sysctl_set: true
     reload: true
-  ignore_errors: true
   when: security_kern_restrict_dmesg | int == 1
 
 - name: Restrict access to kernel pointers.
@@ -31,7 +29,6 @@
     state: present
     sysctl_set: true
     reload: true
-  ignore_errors: true
   when: (security_kern_restrict_kptr | int == 1) or (security_kern_restrict_kptr | int == 2)
 
 - name: Apply user defined sysctl configuration.
@@ -41,5 +38,4 @@
     sysctl_set: true
     state: present
     reload: yes
-  ignore_errors: true
   with_dict: "{{ security_kern_sysctl_opts }}"

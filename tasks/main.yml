@@ -10,6 +10,10 @@
 - include_tasks: cleanup-packages.yml
 
 - include_tasks: sysctl.yml
+  when:
+    - ansible_connection != "docker"
+    - ansible_connection != "podman"
+    - ansible_connection != "container"
 
 - include_tasks: restrict-access.yml
 

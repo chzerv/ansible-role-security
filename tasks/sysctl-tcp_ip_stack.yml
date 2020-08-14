@@ -1,6 +1,4 @@
 ---
-# Note: ignore_errors: true is a temporary workaround needed because Jeff
-# Geerling's fedora images # do NOT have 'sysctl' installed.
 - name: Protect against SYN flood attacks.
   sysctl:
     name: net.ipv4.tcp_syncookies
@@ -9,7 +7,6 @@
     state: present
     sysctl_set: true
     reload: true
-  ignore_errors: true
   when: security_net_syn_cookies_protection | int == 1
 
 - name: Protect against IP spoofing attacks.
@@ -31,7 +28,6 @@
         state: present
         sysctl_set: true
         reload: true
-  ignore_errors: true
   when: >
     ((security_net_default_rp_filter | int == 1) and (security_net_default_rp_filter | int == 1)) or
     ((security_net_all_rp_filter | int == 2) and (security_net_all_rp_filter | int == 2))
@@ -55,7 +51,6 @@
         state: present
         sysctl_set: true
         reload: true
-  ignore_errors: true
   when: >
     ((security_net_default_icmp_redirect_sending | int == 1) and (security_net_default_icmp_redirect_sending | int == 1))
     or ((security_net_all_icmp_redirect_sending | int == 0) and (security_net_all_icmp_redirect_sending | int == 0))
@@ -79,5 +74,4 @@
         state: present
         sysctl_set: true
         reload: true
-  ignore_errors: true
   when: security_net_icmp_accept_redirects | int == 0
