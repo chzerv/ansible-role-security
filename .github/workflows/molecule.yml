@@ -8,10 +8,11 @@ name: Ansible Molecule
     paths-ignore:
       - "README.md"
   schedule:
-    - cron: 5 8 * * 1
+    - cron: "5 8 * * 1"
 
 jobs:
   test:
+    if: github.event_name == 'push' && contains(toJson(github.event.commits), '[ci skip]') == false && contains(toJson(github.event.commits), '[skip ci]') == false
     name: Molecule
     runs-on: ubuntu-latest
     strategy:
