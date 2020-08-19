@@ -32,6 +32,7 @@
         new_module_path: pam_faillock.so
         module_arguments: "preauth silent audit deny=3 unlock_time=1800"
         state: after
+        backup: true
 
     - name: password-auth (auth [default=die])
       pamd:
@@ -44,6 +45,7 @@
         new_module_path: pam_faillock.so
         module_arguments: "authfail audit deny=3 unlock_time=1800"
         state: after
+        backup: true
 
     - name: password-auth (account required)
       pamd:
@@ -56,6 +58,7 @@
         new_module_path: pam_faillock.so
         module_arguments: "authfail audit deny=3 unlock_time=1800"
         state: before
+        backup: true
 
     - name: system-auth (auth required)
       pamd:
@@ -68,6 +71,7 @@
         new_module_path: pam_faillock.so
         module_arguments: "preauth silent audit deny=3 unlock_time=1800"
         state: after
+        backup: true
 
     - name: system-auth (auth [default=die])
       pamd:
@@ -80,6 +84,7 @@
         new_module_path: pam_faillock.so
         module_arguments: "authfail audit deny=3 unlock_time=1800"
         state: after
+        backup: true
 
     - name: system-auth (account required)
       pamd:
@@ -92,4 +97,5 @@
         new_module_path: pam_faillock.so
         module_arguments: "authfail audit deny=3 unlock_time=1800"
         state: before
+        backup: true
   when: security_lock_after_failed_logins | bool

@@ -35,4 +35,5 @@
     new_module_path: pam_tally2.so
     module_arguments: "onerr=fail deny=3 unlock_time=1800"
     state: before
+    backup: true
   when: security_lock_after_failed_logins | bool
