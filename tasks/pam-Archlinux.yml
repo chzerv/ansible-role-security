@@ -39,16 +39,54 @@
         mode: "0644"
   when: security_enforce_strong_passwords | bool
 
-- name: Lock user account after three failed login attempts (Archlinux systems).
-  replace:
-    path: /etc/pam.d/system-login
-    regexp: '^auth\s*required\s*pam_tally2\.so\s*onerr=succeed\s*file=\/var\/log\/tallylog'
-    replace: >
-      auth\trequired\tpam_tally2.so
-      onerr=fail
-      deny=4
-      audit
-      unlock_time=3600
+- name: Check if pam_faillock.so is used.
+  shell:
+    cmd: 'grep -c "^auth\s*required\s*pam_faillock\.so.*" system-auth || true'
+    chdir: /etc/pam.d
+  register: pam_faillock_exists
+
+- name: Check if pam_tally2.so is used.
+  shell:
+    cmd: 'grep -c "^auth\s*required\s*pam_tally2\.so.*" system-login || true'
+    chdir: /etc/pam.d
+  register: pam_tally_exists
+
+- name: Lock user account after three failed login attempts, using pam_faillock (Archlinux systems).
+  block:
+    - name: Update pam_faillock.so arguments, if it's being used - step 1
+      pamd:
+        name: system-auth
+        type: auth
+        control: required
+        module_path: pam_faillock.so
+        module_arguments: "preauth silent audit deny=3 unlock_time=1800"
+        state: updated
+        backup: true
+
+    - name: Update pam_faillock.so arguments, if it's being used - step 2
+      pamd:
+        name: system-auth
+        type: auth
+        control: "[default=die]"
+        module_path: pam_faillock.so
+        module_arguments: "authfail audit deny=3 unlock_time=1800"
+        state: updated
+        backup: true
+  when:
+    - pam_faillock_exists.stdout != "0"
+    - pam_tally_exists.stdout == "0"
+    - security_lock_after_failed_logins | bool
+
+- name: Lock user account after three failed login attempts, using pam_tally2 (Archlinux systems).
+  pamd:
+    name: system-login
+    type: auth
+    control: required
+    module_path: pam_tally2.so
+    module_arguments: "deny=3 unlock_time=1800 onerr=succeed file=/var/log/tallylog"
+    state: updated
     backup: true
-    mode: "0644"
-  when: security_lock_after_failed_logins | bool
+  when:
+    - pam_tally_exists.stdout != "0"
+    - pam_faillock_exists.stdout == "0"
+    - security_lock_after_failed_logins | bool
