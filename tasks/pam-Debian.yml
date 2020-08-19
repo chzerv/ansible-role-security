@@ -25,11 +25,14 @@
   when: security_enforce_strong_passwords | bool
 
 - name: Lock user account after three failed login attempts (Debian systems).
-  lineinfile:
-    path: /etc/pam.d/common-auth
-    insertafter: '^auth\s*\[success=1\sdefault=ignore\]\s*pam_unix\.so nullok_secure'
-    line: "auth    required    pam_tally2.so onerr=fail deny=4 audit unlock_time=3600"
-    firstmatch: true
-    backup: true
-    mode: "0644"
+  pamd:
+    name: common-auth
+    type: auth
+    control: "[success=1 default=ignore]"
+    module_path: pam_unix.so
+    new_type: auth
+    new_control: required
+    new_module_path: pam_tally2.so
+    module_arguments: "onerr=fail deny=3 unlock_time=1800"
+    state: before
   when: security_lock_after_failed_logins | bool
