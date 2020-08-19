@@ -27,34 +27,40 @@
         insertafter: '^auth\s*required\s*pam_env\.so'
         line: "auth   required    pam_faillock.so preauth silent audit deny=4"
         backup: true
+        mode: "0644"
     - name: pam_faillock - system-auth [ auth - default=die ]
       lineinfile:
         path: /etc/pam.d/system-auth
         insertafter: '^auth\s*sufficient\s*pam_unix\.so\s*nullok\s*try_first_pass'
         line: "auth   [default=die]    pam_faillock.so authfail audit deny=4"
         backup: true
+        mode: "0644"
     - name: pam_faillock - system-auth [ account - default=die ]
       lineinfile:
         path: /etc/pam.d/system-auth
         insertafter: "^account.*"
         line: "account   required    pam_faillock.so"
         backup: true
+        mode: "0644"
     - name: pam_faillock - password-auth [ auth - required ]
       lineinfile:
         path: /etc/pam.d/password-auth
         insertafter: '^auth\s*required\s*pam_env\.so'
         line: "auth   required    pam_faillock.so preauth silent audit deny=4"
         backup: true
+        mode: "0644"
     - name: pam_faillock - password-auth [ auth - default=die ]
       lineinfile:
         path: /etc/pam.d/password-auth
         insertafter: '^auth\s*sufficient\s*pam_unix\.so\s*nullok\s*try_first_pass'
         line: "auth   [default=die]    pam_faillock.so authfail audit deny=4"
         backup: true
+        mode: "0644"
     - name: pam_faillock - password-auth [ account - default=die ]
       lineinfile:
         path: /etc/pam.d/password-auth
         insertafter: "^account.*"
         line: "account   required    pam_faillock.so"
         backup: true
+        mode: "0644"
   when: security_lock_after_failed_logins | bool

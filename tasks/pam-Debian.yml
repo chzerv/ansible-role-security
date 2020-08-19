@@ -31,4 +31,5 @@
     line: "auth    required    pam_tally2.so onerr=fail deny=4 audit unlock_time=3600"
     firstmatch: true
     backup: true
+    mode: "0644"
   when: security_lock_after_failed_logins | bool

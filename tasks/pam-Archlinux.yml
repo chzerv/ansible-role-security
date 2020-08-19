@@ -20,6 +20,7 @@
           ocredit=-1
           ucredit=-1
         backup: true
+        mode: "0644"
 
     - name: Remove nullok option from  pam_unix.so.
       replace:
@@ -27,6 +28,7 @@
         regexp: '^password\trequired\tpam_unix\.so sha512 shadow nullok'
         replace: '#password\trequired\tpam_unix.so sha512 shadow nullok'
         backup: true
+        mode: "0644"
 
     - name: Add use_authtok option for  pam_unix.so.
       replace:
@@ -34,6 +36,7 @@
         regexp: '^#password\s*required\s*pam_unix\.so sha512 shadow use_authtok'
         replace: 'password\trequired\tpam_unix.so sha512 shadow use_authtok'
         backup: true
+        mode: "0644"
   when: security_enforce_strong_passwords | bool
 
 - name: Lock user account after three failed login attempts (Archlinux systems).
@@ -47,4 +50,5 @@
       audit
       unlock_time=3600
     backup: true
+    mode: "0644"
   when: security_lock_after_failed_logins | bool
