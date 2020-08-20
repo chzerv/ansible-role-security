@@ -19,7 +19,7 @@
     backup: true
   when: security_enforce_strong_passwords | bool
 
-- name: Lock user account after three failed login attempts (RedHat systems).
+- name: Lock user account after number of failed login attempts (RedHat systems).
   block:
     - name: password-auth (auth required)
       pamd:
@@ -30,7 +30,7 @@
         new_type: auth
         new_control: required
         new_module_path: pam_faillock.so
-        module_arguments: "preauth silent audit deny=3 unlock_time=1800"
+        module_arguments: "preauth silent audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: after
         backup: true
 
@@ -43,7 +43,7 @@
         new_type: auth
         new_control: "[default=die]"
         new_module_path: pam_faillock.so
-        module_arguments: "authfail audit deny=3 unlock_time=1800"
+        module_arguments: "authfail audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: after
         backup: true
 
@@ -56,7 +56,7 @@
         new_type: account
         new_control: required
         new_module_path: pam_faillock.so
-        module_arguments: "authfail audit deny=3 unlock_time=1800"
+        module_arguments: "authfail audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: before
         backup: true
 
@@ -69,7 +69,7 @@
         new_type: auth
         new_control: required
         new_module_path: pam_faillock.so
-        module_arguments: "preauth silent audit deny=3 unlock_time=1800"
+        module_arguments: "preauth silent audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: after
         backup: true
 
@@ -82,7 +82,7 @@
         new_type: auth
         new_control: "[default=die]"
         new_module_path: pam_faillock.so
-        module_arguments: "authfail audit deny=3 unlock_time=1800"
+        module_arguments: "authfail audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: after
         backup: true
 
@@ -95,7 +95,7 @@
         new_type: account
         new_control: required
         new_module_path: pam_faillock.so
-        module_arguments: "authfail audit deny=3 unlock_time=1800"
+        module_arguments: "authfail audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: before
         backup: true
   when: security_lock_after_failed_logins | bool

@@ -24,7 +24,7 @@
         backup: true
   when: security_enforce_strong_passwords | bool
 
-- name: Lock user account after three failed login attempts (Debian systems).
+- name: Lock user account after number of failed login attempts (Debian systems).
   pamd:
     name: common-auth
     type: auth
@@ -33,7 +33,7 @@
     new_type: auth
     new_control: required
     new_module_path: pam_tally2.so
-    module_arguments: "onerr=fail deny=3 unlock_time=1800"
+    module_arguments: "onerr=fail deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
     state: before
     backup: true
   when: security_lock_after_failed_logins | bool

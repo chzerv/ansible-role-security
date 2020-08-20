@@ -47,7 +47,7 @@
   changed_when: false
   register: pam_tally_exists
 
-- name: Lock user account after three failed login attempts, using pam_faillock (Archlinux systems).
+- name: Lock user account after number of failed login attempts, using pam_faillock (Archlinux systems).
   block:
     - name: Update pam_faillock.so arguments, if it's being used - step 1
       pamd:
@@ -55,7 +55,7 @@
         type: auth
         control: required
         module_path: pam_faillock.so
-        module_arguments: "preauth silent audit deny=3 unlock_time=1800"
+        module_arguments: "preauth silent audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: updated
         backup: true
 
@@ -65,7 +65,7 @@
         type: auth
         control: "[default=die]"
         module_path: pam_faillock.so
-        module_arguments: "authfail audit deny=3 unlock_time=1800"
+        module_arguments: "authfail audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
         state: updated
         backup: true
   when:
@@ -73,13 +73,13 @@
     - pam_tally_exists.stdout == "0"
     - security_lock_after_failed_logins | bool
 
-- name: Lock user account after three failed login attempts, using pam_tally2 (Archlinux systems).
+- name: Lock user account after number of failed login attempts, using pam_tally2 (Archlinux systems).
   pamd:
     name: system-login
     type: auth
     control: required
     module_path: pam_tally2.so
-    module_arguments: "deny=3 unlock_time=1800 onerr=succeed file=/var/log/tallylog"
+    module_arguments: "deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800 onerr=succeed file=/var/log/tallylog"
     state: updated
     backup: true
   when:
