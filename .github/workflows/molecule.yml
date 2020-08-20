@@ -3,10 +3,9 @@ name: Ansible Molecule
 "on":
   pull_request:
   push:
-    branches:
-      - master
     paths-ignore:
       - "README.md"
+      - "docs/**"
   schedule:
     - cron: "5 8 * * 1"
 
