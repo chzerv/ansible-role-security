@@ -22,21 +22,15 @@
         backup: true
         mode: "0644"
 
-    - name: Remove nullok option from  pam_unix.so.
-      replace:
-        path: /etc/pam.d/passwd
-        regexp: '^password\trequired\tpam_unix\.so sha512 shadow nullok'
-        replace: '#password\trequired\tpam_unix.so sha512 shadow nullok'
+    - name: Replace nullok argument with use_authtok for pam_unix.so.
+      pamd:
+        name: passwd
+        type: password
+        control: required
+        module_path: pam_unix.so
+        module_arguments: "sha512 shadow use_authtok"
+        state: updated
         backup: true
-        mode: "0644"
-
-    - name: Add use_authtok option for  pam_unix.so.
-      replace:
-        path: /etc/pam.d/passwd
-        regexp: '^#password\s*required\s*pam_unix\.so sha512 shadow use_authtok'
-        replace: 'password\trequired\tpam_unix.so sha512 shadow use_authtok'
-        backup: true
-        mode: "0644"
   when: security_enforce_strong_passwords | bool
 
 - name: Check if pam_faillock.so is used.
