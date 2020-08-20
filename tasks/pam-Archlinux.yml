@@ -43,14 +43,14 @@
   shell:
     cmd: 'grep -c "^auth\s*required\s*pam_faillock\.so.*" system-auth || true'
     chdir: /etc/pam.d
-  changed_when: fale
+  changed_when: false
   register: pam_faillock_exists
 
 - name: Check if pam_tally2.so is used.
   shell:
     cmd: 'grep -c "^auth\s*required\s*pam_tally2\.so.*" system-login || true'
     chdir: /etc/pam.d
-  changed_when: fale
+  changed_when: false
   register: pam_tally_exists
 
 - name: Lock user account after three failed login attempts, using pam_faillock (Archlinux systems).
