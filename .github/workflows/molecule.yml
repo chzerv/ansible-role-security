@@ -49,7 +49,7 @@ jobs:
 
       - name: Install test dependencies.
         run: |
-          pip3 install docker yamllint ansible-lint molecule-containers molecule=='3.0.6'
+          pip3 install docker yamllint ansible-lint molecule-containers molecule
 
       - name: Run molecule test
         run: molecule test
