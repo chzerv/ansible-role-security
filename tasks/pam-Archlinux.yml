@@ -55,8 +55,8 @@
         type: auth
         control: required
         module_path: pam_faillock.so
-        module_arguments: "preauth silent audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
-        state: updated
+        module_arguments: "silent audit deny={{ security_lock_after_num_of_failed_logins }} unlock_time=1800"
+        state: args_present
         backup: true
 
     - name: Update pam_faillock.so arguments, if it's being used - step 2
