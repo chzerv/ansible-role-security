@@ -9,3 +9,22 @@
   when:
     - (security_kern_hidepid_value | int == 1) or (security_kern_hidepid_value | int == 2)
     - security_kern_hidepid_mount_opts is defined
+
+- name: Fix user sessions after mounting /proc with hidepid.
+  block:
+    - name: Add systemd-logind exception | Ensure /etc/systemd/system/systemd-logind.service.d exists.
+      file:
+        path: /etc/systemd/system/systemd-logind.service.d
+        state: directory
+        mode: '0755'
+
+    - name: Add systemd-logind exception | Write hidepid.conf.
+      blockinfile:
+        path: /etc/systemd/system/systemd-logind.service.d/hidepid.conf
+        create: true
+        block: |
+          [Service]
+          SupplementaryGroups=proc
+  when:
+    - (security_kern_hidepid_value | int == 1) or (security_kern_hidepid_value | int == 2)
+    - security_kern_hidepid_mount_opts is defined
