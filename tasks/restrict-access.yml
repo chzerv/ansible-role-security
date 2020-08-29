@@ -19,6 +19,7 @@
       blockinfile:
         path: /etc/systemd/system/systemd-logind.service.d/hidepid.conf
         create: true
+        mode: "0644"
         block: |
           [Service]
           SupplementaryGroups=proc
