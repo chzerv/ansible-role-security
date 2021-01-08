@@ -6,6 +6,13 @@
 2. make sure to quote (`""`) the values, as shown below.
 
 ```yaml
+security_net_go_hardcore: true
+```
+
+> Whether to perform _any_ TCP/IP stack hardening or not. This variable exists so the user doesn't
+> have to disable the rest of the variables if they don't care for this feature.
+
+```yaml
 security_net_syn_cookies_protection: "1"
 ```
 

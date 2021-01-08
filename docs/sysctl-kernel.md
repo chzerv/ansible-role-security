@@ -6,6 +6,13 @@
 2. Make sure to quote (`""`) the values, as shown below.
 
 ```yaml
+security_kern_go_hardcore: true
+```
+
+> Whether to perform _any_ kernel hardening or not. This variable exists so the user doesn't
+> have to disable the rest of the variables if they don't care for this feature.
+
+```yaml
 security_kern_disable_kexec: "1"
 ```
 

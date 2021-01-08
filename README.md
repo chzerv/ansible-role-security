@@ -20,6 +20,8 @@ This role performs some basic security configuration on RedHat/Debian/Archlinux 
 - Basic TCP/IP stack hardening.
 - Remove packages of your choice.
 - Setup/configure PAM modules like `pam_tally2` and `pwquality`.
+- Disable core dumps, using `limits`.
+- Set an `nproc` limit for protection against fork bombs, using `limits` (does not apply for the root user).
 
 ## Requirements
 
