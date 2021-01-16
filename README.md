@@ -35,7 +35,7 @@ None.
 - [Kernel hardening](docs/sysctl-kernel.md)
 - [TCP/IP stack hardening](docs/sysctl-tcp_ip.md)
 - [Auto updates](docs/auto-updates.md)
-- [PAM](docs/pam.md)
+- [PAM](docs/pam-limits.md)
 
 ## Dependencies
 
