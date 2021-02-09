@@ -8,7 +8,6 @@ galaxy_info:
   platforms:
     - name: Fedora
       versions:
-        - 31
         - 32
         - 33
     - name: EL
@@ -22,10 +21,8 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - bionic
-        - cosmic
-        - disco
-        - eoan
         - focal
+        - groovy
     - name: Archlinux
       versions: all
 
