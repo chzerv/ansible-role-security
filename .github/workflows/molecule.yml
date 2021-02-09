@@ -16,26 +16,24 @@ jobs:
     strategy:
       matrix:
         config:
-          - image: "debian"
-            tag: "latest"
-          - image: "debian"
-            tag: stretch
-          - image: "ubuntu"
-            tag: "latest"
-          - image: "ubuntu"
-            tag: "focal"
-          - image: "ubuntu"
-            tag: "bionic"
-          - image: "centos"
-            tag: "latest"
-          - image: "centos"
-            tag: "7"
-          - image: "fedora"
-            tag: "latest"
-          - image: "fedora"
-            tag: "32"
-          - image: "fedora"
-            tag: "31"
+          - image: "debian10"
+            tag: latest
+          - image: "debian9"
+            tag: latest
+          - image: "ubuntu2010"
+            tag: latest
+          - image: "ubuntu2004"
+            tag: latest
+          - image: "ubuntu1804"
+            tag: latest
+          - image: "centos8"
+            tag: latest
+          - image: "centos7"
+            tag: latest
+          - image: "fedora33"
+            tag: latest
+          - image: "fedora32"
+            tag: latest
           - image: "archlinux"
             tag: latest
 
