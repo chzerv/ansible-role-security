@@ -34,6 +34,7 @@
         path: /etc/systemd/system/fail2ban.service.d
         state: directory
         mode: 0755
+
     - name: Copy the override template.
       template:
         src: etc/systemd/system/fail2ban.service.d/override.conf.j2
@@ -41,11 +42,21 @@
         owner: root
         group: root
         mode: 0644
+
+    - name: Adjust the "logtarget" path.
+      template:
+        src: etc/fail2ban/fail2ban.local.j2
+        dest: /etc/fail2ban/fail2ban.local
+        owner: root
+        group: root
+        mode: 0644
+
     - name: Create the /var/log/fail2ban/ directory.
       file:
         path: /var/log/fail2ban
         state: directory
         mode: 0755
+
     - name: Reload systemd daemon.
       systemd:
         daemon_reload: true
