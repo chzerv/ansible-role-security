@@ -1,5 +1,7 @@
 # PAM and limits configuration
 
+**NOTE:** Messing with PAM can be dangerous. Please, at least make sure you have a root shell open before running the role.
+
 ```yaml
 security_enforce_strong_passwords: true
 security_lock_after_failed_logins: true

@@ -25,6 +25,11 @@ This role performs some basic security configuration on RedHat/Debian/Archlinux 
 
 ## Requirements
 
+-  After running this role, SSH access will only be possible using public keys, therefore,
+your SSH keys must be already copied to the remote host. See [this ArchWiki entry](https://wiki.archlinux.org/title/SSH_keys#Copying_the_public_key_to_the_remote_server) on how to easily copy your SSH keys to the remote host.
+- Basic understanding of what each setting does.
+- Not strictly a requirement, but if you decide to let the role configure PAM related stuff, make sure you have a root shell open before running the role.
+
 None.
 
 ## Role Variables
