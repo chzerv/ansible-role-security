@@ -6,3 +6,5 @@ security_fail2ban_packages:
   - fail2ban
   - fail2ban-firewalld
   - fail2ban-selinux
+
+procps_package_name: procps-ng

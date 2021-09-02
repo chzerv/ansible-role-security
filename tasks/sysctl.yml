@@ -1,4 +1,9 @@
 ---
+- name: Ensure required packages for configuring sysctl are installed.
+  package:
+    name: "{{ procps_package_name }}"
+    state: present
+
 - name: Kernel hardening using sysctl options.
   include_tasks: sysctl-kernel.yml
   when: security_kern_go_hardcore | bool
