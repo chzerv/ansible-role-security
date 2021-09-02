@@ -6,7 +6,7 @@
         - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
       skip: true
 
-- name: Install required packages.
+- name: Ensure required packages for fail2ban are installed.
   package:
     name: "{{ security_fail2ban_packages }}"
     state: present
