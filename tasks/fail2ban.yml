@@ -27,6 +27,16 @@
     group: root
     mode: 0644
 
+- name: Ensure LogLevel is set to verbose for ssh.
+  lineinfile:
+    dest: "{{ security_ssh_config_path }}"
+    regexp: "^LogLevel"
+    line: "LogLevel VERBOSE"
+    state: present
+    backup: true
+    validate: "sshd -T -f %s"
+    mode: "0644"
+
 - name: Additional fail2ban service hardening using systemd.
   block:
     - name: Create /etc/systemd/system/fail2ban.service.d override directory.
