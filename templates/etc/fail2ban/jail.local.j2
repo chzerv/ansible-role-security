@@ -2,3 +2,6 @@
 bantime  = 3d
 findtime  = 1h
 maxretry = 5
+{% if security_fail2ban_ignoreip is defined and security_fail2ban_ignoreip | length > 0 %}
+ignoreip  = {{ security_fail2ban_ignoreip }}
+{% endif %}
