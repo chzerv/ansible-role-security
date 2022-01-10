@@ -17,27 +17,16 @@ jobs:
       matrix:
         config:
           - image: "debian11"
-            tag: latest
           - image: "debian10"
-            tag: latest
           - image: "debian9"
-            tag: latest
           - image: "ubuntu2004"
-            tag: latest
           - image: "ubuntu1804"
-            tag: latest
+          - image: "rockylinux8"
           - image: "centos8"
-            tag: latest
           - image: "centos7"
-            tag: latest
           - image: "fedora35"
-            tag: latest
           - image: "fedora34"
-            tag: latest
-          - image: "fedora33"
-            tag: latest
           - image: "archlinux"
-            tag: latest
 
     steps:
       - name: Checkout.
