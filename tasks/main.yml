@@ -25,9 +25,5 @@
     - security_autoupdates_enabled | bool
     - not ansible_os_family == "Archlinux"
 
-- include_tasks: pam-{{ ansible_os_family }}.yml
-  when: security_secure_pam | bool
-
 - include_tasks: limits.yml
-  when:
-    - security_secure_pam | bool
+  when: security_disable_core_dumps | bool

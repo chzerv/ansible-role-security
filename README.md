@@ -4,6 +4,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Ansible Role](https://img.shields.io/ansible/role/50034?color=dodgerblue)](https://galaxy.ansible.com/chzerv/security)
 
+> **Important Changes**:
+> As of v0.7, the role no longer supports the `security_enforce_strong_passwords`, `security_log_after_failed_logins` and `security_nproc_limit` options. Bad PAM configuration can lock you out of the system, so I'll have to find a better way to implement these.
+
 **Remember, securing YOUR PC/server is YOUR OWN responsibility.** This is a very basic template and it should be used as a _template_, not a complete solution.
 
 This role performs some basic security configuration on RedHat/Debian/Archlinux based Linux systems, like:
@@ -19,16 +22,13 @@ This role performs some basic security configuration on RedHat/Debian/Archlinux 
 - Basic kernel-hardening.
 - Basic TCP/IP stack hardening.
 - Remove packages of your choice.
-- Setup/configure PAM modules like `pam_tally2` and `pwquality`.
 - Disable core dumps, using `limits`.
-- Set an `nproc` limit for protection against fork bombs, using `limits` (does not apply for the root user).
 
 ## Requirements
 
 -  After running this role, SSH access will only be possible using public keys, therefore,
 your SSH keys must be already copied to the remote host. See [this ArchWiki entry](https://wiki.archlinux.org/title/SSH_keys#Copying_the_public_key_to_the_remote_server) on how to easily copy your SSH keys to the remote host.
 - Basic understanding of what each setting does.
-- Not strictly a requirement, but if you decide to let the role configure PAM related stuff, make sure you have a root shell open on the remote host(s) before running the role.
 
 ## Role Variables
 

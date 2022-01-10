@@ -60,10 +60,4 @@ security_autoupdates_blacklist:
 
 security_autoupdates_apply_updates: "yes"
 
-security_secure_pam: true
-security_enforce_strong_passwords: true
-security_lock_after_failed_logins: true
-security_lock_after_num_of_failed_logins: 4
 security_disable_core_dumps: true
-security_nproc_limit: true
-security_nproc_limit_value: "2048"
