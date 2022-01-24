@@ -4,6 +4,14 @@
     name: "{{ procps_package_name }}"
     state: present
 
+- name: Ensure the /etc/sysctl.d/ directory exists.
+  file:
+    path: /etc/sysctl.d/
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
 - name: Kernel hardening using sysctl options.
   include_tasks: sysctl-kernel.yml
   when: security_kern_go_hardcore | bool
