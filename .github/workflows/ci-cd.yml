@@ -16,17 +16,18 @@ jobs:
     strategy:
       matrix:
         config:
+          - image: "archlinux"
           - image: "debian11"
           - image: "debian10"
           - image: "debian9"
           - image: "ubuntu2004"
           - image: "ubuntu1804"
           - image: "rockylinux8"
-          - image: "centos8"
+          - image: "almalinux8"
+          - image: "centos-stream8"
           - image: "centos7"
           - image: "fedora35"
           - image: "fedora34"
-          - image: "archlinux"
 
     steps:
       - name: Checkout.
