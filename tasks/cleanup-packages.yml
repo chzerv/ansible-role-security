@@ -20,7 +20,6 @@
   pacman:
     name: "{{ security_cleanup_pacman_packages }}"
     state: absent
-    extra_args: --recursive
   when:
     - security_cleanup_pacman_packages is defined
     - ansible_os_family == "Archlinux"
