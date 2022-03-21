@@ -12,13 +12,13 @@
 
   pre_tasks:
     - name: Update apt cache.
-      apt:
+      ansible.builtin.apt:
         upgrade: true
         update_cache: true
       when: ansible_os_family == "Debian"
 
     - name: Ensure required packages are installed (RedHat).
-      yum:
+      ansible.builtin.yum:
         name:
           - openssh-server
           - openssh-clients
@@ -26,7 +26,7 @@
       when: ansible_os_family == "RedHat"
 
     - name: Install EPEL repo (RedHat-based systems).
-      yum:
+      ansible.builtin.yum:
         name: epel-release
         state: present
       when:
@@ -34,7 +34,7 @@
         - ansible_distribution != "Fedora"
 
     - name: Ensure required packages are installed (Debian).
-      apt:
+      ansible.builtin.apt:
         name:
           - openssh-server
           - openssh-client
@@ -43,8 +43,8 @@
 
     - name: Update pacman cache.
       pacman:
-        update_cache: true
-        upgrade: true
+        update_cache: yes
+        upgrade: yes
       when: ansible_os_family == "Archlinux"
 
     - name: Ensure required packages are installed (ArchLinux).
@@ -70,5 +70,5 @@
 
   tasks:
     - name: "Include hardening"
-      include_role:
+      ansible.builtin.include_role:
         name: "ansible-role-security"

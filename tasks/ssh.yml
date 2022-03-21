@@ -10,14 +10,14 @@
     - security_ssh_port != 22
 
 - name: Workaround 'missing separation directory' error in Debian.
-  file:
+  ansible.builtin.file:
     path: /var/run/sshd
     state: directory
     mode: "0755"
   when: ansible_os_family == "Debian"
 
 - name: Update sshd configuration.
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ security_ssh_config_path }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -47,7 +47,7 @@
   notify: restart sshd
 
 - name: Disable weak algorithms and ciphers.
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "{{ security_ssh_config_path }}"
     block: "{{ lookup('template', 'weak_algorithms_and_ciphers.j2') }}"
     backup: true
@@ -63,21 +63,21 @@
       (ansible_os_family == "Archlinux")
 
 - name: Force handlers to run immediately.
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Check if ~/.ssh/authorized_keys exists.
-  stat:
+  ansible.builtin.stat:
     path: "~/.ssh/authorized_keys"
   register: authorized_keys_exists
   when: security_ssh_secure_authorized_keys_file | bool
 
 - name: Set read-only permissions on authorized_keys.
-  file:
+  ansible.builtin.file:
     path: "~/.ssh/authorized_keys"
     mode: "0400"
   when: authorized_keys_exists.stat.exists
 
 - name: SSH | Enable sshd at boot.
-  service:
+  ansible.builtin.service:
     name: "{{ security_ssh_daemon_name }}"
     enabled: true

@@ -1,6 +1,6 @@
 ---
 - name: Remove unnecessary DEB packages.
-  apt:
+  ansible.builtin.apt:
     name: "{{ security_cleanup_deb_packages }}"
     state: absent
     purge: true
@@ -9,7 +9,7 @@
     - ansible_os_family == "Debian"
 
 - name: Remove unnecessary RPM packages.
-  yum:
+  ansible.builtin.yum:
     name: "{{ security_cleanup_rpm_packages }}"
     state: absent
   when:

@@ -1,6 +1,6 @@
 ---
 - name: Find correct program for RHEL/CentOS < 8 or Fedora < 22.
-  set_fact:
+  ansible.builtin.set_fact:
     auto_update_program: yum-cron
     auto_update_service: yum-cron
     auto_update_config_path: etc/yum/yum-cron.conf
@@ -9,7 +9,7 @@
     (ansible_distribution == "Fedora" and ansible_distribution_major_version | int < 22)
 
 - name: Find correct program for RHEL/CentOS = 8 or Fedora > 22.
-  set_fact:
+  ansible.builtin.set_fact:
     auto_update_program: dnf-automatic
     auto_update_service: dnf-automatic-install.timer
     auto_update_config_path: etc/dnf/automatic.conf
@@ -18,12 +18,12 @@
     (ansible_distribution == "Fedora" and ansible_distribution_major_version | int >= 22)
 
 - name: Install correct program.
-  yum:
+  ansible.builtin.yum:
     name: "{{ auto_update_program }}"
     state: present
 
 - name: Copy {{ auto_update_program }} configuration to the remote host.
-  template:
+  ansible.builtin.template:
     src: "{{ auto_update_config_path }}.j2"
     dest: "/{{ auto_update_config_path }}"
     owner: root
@@ -31,7 +31,7 @@
     mode: 0644
 
 - name: Ensure auto-updates is running and enabled at boot.
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ auto_update_service }}"
     state: started
     enabled: true
