@@ -24,7 +24,6 @@ security_fail2ban_ignoreip: []
 
 security_cleanup_deb_packages: []
 security_cleanup_rpm_packages: []
-security_cleanup_pacman_packages: []
 
 security_kern_go_hardcore: true
 security_kern_disable_kexec: "1"
