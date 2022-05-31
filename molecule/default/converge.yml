@@ -43,8 +43,8 @@
 
     - name: Update pacman cache.
       pacman:
-        update_cache: yes
-        upgrade: yes
+        update_cache: true
+        upgrade: true
       when: ansible_os_family == "Archlinux"
 
     - name: Ensure required packages are installed (ArchLinux).
