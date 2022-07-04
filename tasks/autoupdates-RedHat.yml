@@ -8,13 +8,13 @@
     ansible_distribution_major_version | int <= 7 or
     (ansible_distribution == "Fedora" and ansible_distribution_major_version | int < 22)
 
-- name: Find correct program for RHEL/CentOS = 8 or Fedora > 22.
+- name: Find correct program for RHEL/CentOS >= 8 or Fedora > 22.
   ansible.builtin.set_fact:
     auto_update_program: dnf-automatic
     auto_update_service: dnf-automatic-install.timer
     auto_update_config_path: etc/dnf/automatic.conf
   when: >
-    ansible_distribution_major_version | int == 8 or
+    ansible_distribution_major_version | int >= 8 or
     (ansible_distribution == "Fedora" and ansible_distribution_major_version | int >= 22)
 
 - name: Install correct program.
