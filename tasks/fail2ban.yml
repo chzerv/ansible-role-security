@@ -1,11 +1,4 @@
 ---
-- name: Set distribution version specific variables.
-  ansible.builtin.include_vars: "{{ item }}"
-  with_first_found:
-    - files:
-        - "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
-      skip: true
-
 - name: Ensure required packages for fail2ban are installed.
   ansible.builtin.package:
     name: "{{ security_fail2ban_packages }}"
@@ -19,25 +12,29 @@
     group: root
     mode: 0644
 
-- name: Copy fail2ban custom sshd jail to the remote host.
-  ansible.builtin.template:
-    src: etc/fail2ban/jail.d/sshd.local.j2
-    dest: /etc/fail2ban/jail.d/sshd.local
-    owner: root
-    group: root
-    mode: 0644
+- name: SSH jail
+  when: security_fail2ban_add_ssh_jail | bool
+  block:
+    - name: Copy fail2ban custom sshd jail to the remote host.
+      ansible.builtin.template:
+        src: etc/fail2ban/jail.d/sshd.local.j2
+        dest: /etc/fail2ban/jail.d/sshd.local
+        owner: root
+        group: root
+        mode: 0644
 
-- name: Ensure LogLevel is set to verbose for ssh.
-  ansible.builtin.lineinfile:
-    dest: "{{ security_ssh_config_path }}"
-    regexp: "^LogLevel"
-    line: "LogLevel VERBOSE"
-    state: present
-    backup: true
-    validate: "sshd -T -f %s"
-    mode: "0644"
+    - name: Ensure LogLevel is set to verbose for ssh.
+      ansible.builtin.lineinfile:
+        dest: "{{ security_ssh_config_path }}"
+        regexp: "^LogLevel"
+        line: "LogLevel VERBOSE"
+        state: present
+        backup: true
+        validate: "sshd -T -f %s"
+        mode: "0644"
 
 - name: Additional fail2ban service hardening using systemd.
+  when: security_fail2ban_harden_service | bool
   block:
     - name: Create /etc/systemd/system/fail2ban.service.d override directory.
       ansible.builtin.file:
@@ -70,7 +67,6 @@
     - name: Reload systemd daemon.
       ansible.builtin.systemd:
         daemon_reload: true
-  when: security_fail2ban_harden_service | bool
 
 - name: Enable fail2ban at boot.
   ansible.builtin.service:
