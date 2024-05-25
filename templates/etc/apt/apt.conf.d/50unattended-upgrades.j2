@@ -6,8 +6,12 @@ Unattended-Upgrade::Allowed-Origins {
 {% if security_autoupdates_type == "security" %}
   "${distro_id} ${distro_codename}-security";
 {% elif security_autoupdates_type == "all" %}
+  "${distro_id} ${distro_codename}";
   "${distro_id} ${distro_codename}-security";
-  "${distro_id} ${distro_codename}-updates";
+  // Extended Security Maintenance doesn't necessarily exist for every release - it might not even be installed -
+  // but if available, unattended-upgrades should also install from here by default.
+  "${distro_id}ESMApps:${distro_codename}-apps-security";
+  "${distro_id}ESM:${distro_codename}-infra-security";
 {% endif %}
 };
 
