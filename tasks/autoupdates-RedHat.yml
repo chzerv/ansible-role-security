@@ -6,7 +6,7 @@
 
 - name: Copy dnf-automatic configuration to the remote host.
   ansible.builtin.template:
-    src: /etc/dnf/automatic.conf.j2
+    src: etc/dnf/automatic.conf.j2
     dest: /etc/dnf/automatic.conf
     owner: root
     group: root
