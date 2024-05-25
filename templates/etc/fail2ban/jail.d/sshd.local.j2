@@ -2,5 +2,4 @@
 enabled   = true
 filter    = sshd
 backend   = systemd
-banaction = {{ security_fail2ban_banaction | default('iptables') }}
 port      = {{ security_ssh_port }}

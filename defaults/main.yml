@@ -18,9 +18,8 @@ security_ssh_secure_authorized_keys_file: true
 security_ssh_handler_state: restarted
 
 security_fail2ban_enabled: true
-security_fail2ban_banaction: iptables
+security_fail2ban_use_firewalld_on_rhel: true
 security_fail2ban_add_ssh_jail: true
-security_fail2ban_harden_service: true
 security_fail2ban_ignoreip: []
 
 security_cleanup_deb_packages: []

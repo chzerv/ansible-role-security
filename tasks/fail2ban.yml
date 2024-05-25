@@ -1,13 +1,43 @@
 ---
-- name: Ensure required packages for fail2ban are installed.
+- name: Install fail2ban
   ansible.builtin.package:
-    name: "{{ security_fail2ban_packages }}"
+    name: fail2ban
     state: present
 
-- name: Copy fail2ban local jail to the remote host.
+- name: Copy local jail configuration to the remote host.
   ansible.builtin.template:
     src: etc/fail2ban/jail.local.j2
     dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install fail2ban-firewalld on RedHat systems
+  ansible.builtin.dnf:
+    name: fail2ban-firewalld
+    state: present
+  when:
+    - security_fail2ban_use_firewalld_on_rhel | bool
+    - ansible_os_family == "RedHat"
+
+- name: Use firewalld as the banaction on RedHat-based systems
+  ansible.builtin.lineinfile:
+    path: /etc/fail2ban/jail.local
+    insertafter: "^[DEFAULT]"
+    line: "{{ item }}"
+  loop:
+    - "banaction = firewallcmd-rich-rules[actiontype=<multiport>]"
+    - "banaction_allports = firewallcmd-rich-rules[actiontype=<allports>]"
+  when:
+    - security_fail2ban_use_firewalld_on_rhel | bool
+    - ansible_os_family == "RedHat"
+    - ansible_facts.services["firewalld.service"] is defined
+    - ansible_facts.services["firewalld.service"].state == "running"
+
+- name: Use systemd's journald as the logging backend
+  ansible.builtin.template:
+    src: etc/fail2ban/jail.d/systemd.conf.j2
+    dest: /etc/fail2ban/jail.d/00-systemd.conf
     owner: root
     group: root
     mode: 0644
@@ -33,42 +63,9 @@
         validate: "sshd -T -f %s"
         mode: "0644"
 
-- name: Additional fail2ban service hardening using systemd.
-  when: security_fail2ban_harden_service | bool
-  block:
-    - name: Create /etc/systemd/system/fail2ban.service.d override directory.
-      ansible.builtin.file:
-        path: /etc/systemd/system/fail2ban.service.d
-        state: directory
-        mode: 0755
-
-    - name: Copy the override template.
-      ansible.builtin.template:
-        src: etc/systemd/system/fail2ban.service.d/override.conf.j2
-        dest: /etc/systemd/system/fail2ban.service.d/override.conf
-        owner: root
-        group: root
-        mode: 0644
-
-    - name: Adjust the "logtarget" path.
-      ansible.builtin.template:
-        src: etc/fail2ban/fail2ban.local.j2
-        dest: /etc/fail2ban/fail2ban.local
-        owner: root
-        group: root
-        mode: 0644
-
-    - name: Create the /var/log/fail2ban/ directory.
-      ansible.builtin.file:
-        path: /var/log/fail2ban
-        state: directory
-        mode: 0755
-
-    - name: Reload systemd daemon.
-      ansible.builtin.systemd:
-        daemon_reload: true
-
-- name: Enable fail2ban at boot.
-  ansible.builtin.service:
+- name: Ensure fail2ban is started and enabled on boot
+  ansible.builtin.systemd:
     name: fail2ban
+    state: started
     enabled: true
+    daemon_reload: true
