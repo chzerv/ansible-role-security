@@ -37,6 +37,8 @@ security_kern_sysctl_opts:
 security_kern_hidepid_value: "0"
 security_kern_hidepid_mount_opts: "nosuid,nodev,noexec,hidepid={{ security_kern_hidepid_value }},gid=proc"
 
+security_disable_core_dumps: true
+
 security_net_go_hardcore: true
 security_net_syn_cookies_protection: "1"
 security_net_default_rp_filter: "1"
@@ -59,5 +61,3 @@ security_autoupdates_blacklist:
   - linux-
 
 security_autoupdates_apply_updates: "yes"
-
-security_disable_core_dumps: true
