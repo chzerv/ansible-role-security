@@ -1,6 +1,6 @@
 ---
 - name: Inform SELinux about the new SSH port.
-  seport:
+  community.general.seport:
     ports: "{{ security_ssh_port }}"
     proto: tcp
     setype: ssh_port_t
@@ -9,7 +9,7 @@
     - ansible_os_family == "RedHat"
     - security_ssh_port != 22
 
-- name: Workaround 'missing separation directory' error in Debian.
+- name: Workaround for 'missing separation directory' error in Debian.
   ansible.builtin.file:
     path: /var/run/sshd
     state: directory
@@ -25,7 +25,7 @@
     backup: true
     validate: "sshd -T -f %s"
     mode: "0644"
-  with_items:
+  loop:
     - regexp: "^Port"
       line: "Port {{ security_ssh_port }}"
     - regexp: "^PubkeyAuthentication"
