@@ -1,9 +1,5 @@
 # Ansible Role: Security
 
-![Test and release.](https://github.com/chzerv/ansible-role-security/workflows/Test%20and%20release./badge.svg?branch=master)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Ansible Role](https://img.shields.io/ansible/role/50034?color=dodgerblue)](https://galaxy.ansible.com/chzerv/security)
-
 > **Important Changes**:
 > As of v0.7, the role no longer supports the `security_enforce_strong_passwords`, `security_log_after_failed_logins` and `security_nproc_limit` options. Bad PAM configuration can lock you out of the system, so I'll have to find a better way to implement these.
 
@@ -26,8 +22,8 @@ This role performs some basic security configuration on RedHat/Debian/Archlinux 
 
 ## Requirements
 
--  After running this role, SSH access will only be possible using public keys, therefore,
-your SSH keys must be already copied to the remote host. See [this ArchWiki entry](https://wiki.archlinux.org/title/SSH_keys#Copying_the_public_key_to_the_remote_server) on how to easily copy your SSH keys to the remote host.
+- After running this role, SSH access will only be possible using public keys, therefore,
+  your SSH keys must be already copied to the remote host. See [this ArchWiki entry](https://wiki.archlinux.org/title/SSH_keys#Copying_the_public_key_to_the_remote_server) on how to easily copy your SSH keys to the remote host.
 - Basic understanding of what each setting does.
 
 ## Role Variables
@@ -71,7 +67,3 @@ security_fail2ban_harden_service: true
 ## License
 
 MIT / BSD
-
-## Author Information
-
-Xristos Zervakis
