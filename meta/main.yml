@@ -1,31 +1,26 @@
 ---
 galaxy_info:
-  author: Xristos Zervakis
-  description: Configure a Linux box to be more secure.
+  author: Chris Zervakis
+  description: Linux system hardening
   license: license (BSD, MIT)
   min_ansible_version: "2.9"
   role_name: security
+  namespace: chzerv
   platforms:
     - name: Fedora
       versions:
-        - "34"
-        - "35"
+        - "39"
     - name: EL
       versions:
-        - "7"
         - "8"
+        - "9"
     - name: Debian
       versions:
-        - stretch
-        - buster
         - bullseye
+        - bookworm
     - name: Ubuntu
       versions:
-        - bionic
-        - focal
-    - name: ArchLinux
-      versions:
-        - all
+        - jammy
 
   galaxy_tags:
     - system

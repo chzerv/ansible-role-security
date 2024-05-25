@@ -1,23 +1,103 @@
 ---
 dependency:
   name: galaxy
+
 driver:
-  name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint
+  name: vagrant
+  provider:
+    name: libvirt
+  provision: yes
+
 platforms:
-  - name: instance
-    image: "chzerv/${IMAGE:-fedora33}-systemd-ansible:${TAG:-latest}"
-    command: ${DOCKER_COMMAND:-""}
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
+  - name: rocky9
+    box: generic/rocky9
+    hostname: "rocky9.test"
+    memory: 1024
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.30.10
+    provider_options:
+      qemu_use_session: false
+    config_opions:
+      ssh.keep_alive: yes
+      ssh.remote_user: 'vagrant'
+      synced_folder: false
+
+  - name: rocky8
+    box: generic/rocky8
+    hostname: "rocky8.test"
+    memory: 1024
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.30.11
+    provider_options:
+      qemu_use_session: false
+    config_opions:
+      ssh.keep_alive: yes
+      ssh.remote_user: 'vagrant'
+      synced_folder: false
+
+  - name: ubuntu2204
+    box: generic/ubuntu2204
+    hostname: "ubuntu2204.test"
+    memory: 1024
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.30.12
+    provider_options:
+      qemu_use_session: false
+    config_opions:
+      ssh.keep_alive: yes
+      ssh.remote_user: 'vagrant'
+      synced_folder: false
+
+  - name: debian12
+    box: generic/debian12
+    hostname: "debian12.test"
+    memory: 1024
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.30.13
+    provider_options:
+      qemu_use_session: false
+    config_opions:
+      ssh.keep_alive: yes
+      ssh.remote_user: 'vagrant'
+      synced_folder: false
+
+  - name: fedora39
+    box: generic/fedora39
+    hostname: "fedora39.test"
+    memory: 1024
+    cpus: 2
+    interfaces:
+      - network_name: private_network
+        ip: 192.168.30.14
+    provider_options:
+      qemu_use_session: false
+    config_opions:
+      ssh.keep_alive: yes
+      ssh.remote_user: 'vagrant'
+      synced_folder: false
+
+scenario:
+  test_sequence:
+    - dependency
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - verify
+    - destroy
 provisioner:
   name: ansible
+  connection_options:
+    ansible_ssh_user: vagrant
+    ansible_become: true
   playbooks:
-    converge: "${MOLECULE_PLAYBOOK:-converge.yml}"
-verifier:
-  name: ansible
+    converge: ./converge.yml
+    verify: ./verify.yml

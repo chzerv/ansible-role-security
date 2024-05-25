@@ -1,6 +1,6 @@
 ---
 - name: Protect against SYN flood attacks.
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies
     value: "{{ security_net_syn_cookies_protection }}"
     sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
@@ -10,9 +10,11 @@
   when: security_net_syn_cookies_protection | int == 1
 
 - name: Protect against IP spoofing attacks.
+  when: >
+    ((security_net_default_rp_filter | int == 1) and (security_net_default_rp_filter | int == 1)) or ((security_net_all_rp_filter | int == 2) and (security_net_all_rp_filter | int == 2))
   block:
-    - name: conf.default.rp_filter
-      sysctl:
+    - name: conf.default.rp_filter # noqa name[casing]
+      ansible.posix.sysctl:
         name: net.ipv4.conf.default.rp_filter
         value: "{{ security_net_default_rp_filter }}"
         sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
@@ -20,22 +22,21 @@
         sysctl_set: true
         reload: true
 
-    - name: conf.all.rp_filter
-      sysctl:
+    - name: conf.all.rp_filter # noqa name[casing]
+      ansible.posix.sysctl:
         name: net.ipv4.conf.all.rp_filter
         value: "{{ security_net_all_rp_filter }}"
         sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
         state: present
         sysctl_set: true
         reload: true
-  when: >
-    ((security_net_default_rp_filter | int == 1) and (security_net_default_rp_filter | int == 1)) or
-    ((security_net_all_rp_filter | int == 2) and (security_net_all_rp_filter | int == 2))
 
 - name: Disable ICMP redirect sending.
+  when: >
+    ((security_net_default_icmp_redirect_sending | int == 1) and (security_net_default_icmp_redirect_sending | int == 1)) or ((security_net_all_icmp_redirect_sending | int == 0) and (security_net_all_icmp_redirect_sending | int == 0))
   block:
-    - name: conf.default.send_redirects
-      sysctl:
+    - name: conf.default.send_redirects # noqa name[casing]
+      ansible.posix.sysctl:
         name: net.ipv4.conf.default.send_redirects
         value: "{{ security_net_default_icmp_redirect_sending }}"
         sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
@@ -43,22 +44,20 @@
         sysctl_set: true
         reload: true
 
-    - name: conf.all.send_redirects
-      sysctl:
+    - name: conf.all.send_redirects # noqa name[casing]
+      ansible.posix.sysctl:
         name: net.ipv4.conf.all.send_redirects
         value: "{{ security_net_all_icmp_redirect_sending }}"
         sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
         state: present
         sysctl_set: true
         reload: true
-  when: >
-    ((security_net_default_icmp_redirect_sending | int == 1) and (security_net_default_icmp_redirect_sending | int == 1))
-    or ((security_net_all_icmp_redirect_sending | int == 0) and (security_net_all_icmp_redirect_sending | int == 0))
 
 - name: Don't accept ICMP redirects.
+  when: security_net_icmp_accept_redirects | int == 0
   block:
-    - name: ipv4.conf.all.accept_redirects
-      sysctl:
+    - name: ipv4.conf.all.accept_redirects # noqa name[casing]
+      ansible.posix.sysctl:
         name: net.ipv4.conf.all.accept_redirects
         value: "{{ security_net_icmp_accept_redirects }}"
         sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
@@ -66,12 +65,11 @@
         sysctl_set: true
         reload: true
 
-    - name: ipv6.conf.all.accept_redirects
-      sysctl:
+    - name: ipv6.conf.all.accept_redirects # noqa name[casing]
+      ansible.posix.sysctl:
         name: net.ipv6.conf.all.accept_redirects
         value: "{{ security_net_icmp_accept_redirects }}"
         sysctl_file: /etc/sysctl.d/51-tcp_ip_stack.conf
         state: present
         sysctl_set: true
         reload: true
-  when: security_net_icmp_accept_redirects | int == 0

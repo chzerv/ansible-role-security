@@ -1,9 +1,29 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
+
   tasks:
-  - name: Example assertion
-    ansible.builtin.assert:
-      that: true
+    - name: Check dnf-automatic state
+      when: ansible_os_family == "RedHat"
+      block:
+        - name: Get dnf-automatic service info
+          ansible.builtin.systemd:
+            name: dnf-automatic.timer
+          register: dnf_automatic_info
+
+        - name: Ensure 'dnf-automatic.timer' is started and enabled at boot
+          ansible.builtin.assert:
+            that:
+              - dnf_automatic_info.status.UnitFileState == "enabled"
+              - dnf_automatic_info.status.ActiveState == "active"
+
+    - name: Get fail2ban status
+      ansible.builtin.command: fail2ban-client status
+      changed_when: false
+      become: true
+      register: fail2ban_status
+
+    - name: Ensure 'sshd' is in the jail list
+      ansible.builtin.assert:
+        that:
+          - "'sshd' in (fail2ban_status.stdout_lines | trim ('trim') )"

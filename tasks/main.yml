@@ -1,29 +1,30 @@
 ---
-- name: Set distribution family specific variables.
+- name: Gather service facts
+  ansible.builtin.service_facts:
+
+- name: Set distribution specific variables
   ansible.builtin.include_vars: "{{ ansible_os_family }}.yml"
 
-- include_tasks: ssh.yml
+- name: Include tasks for SSH hardening
+  ansible.builtin.include_tasks: ssh.yml
 
-- include_tasks: fail2ban.yml
+- name: Include tasks for setting up fail2ban
+  ansible.builtin.include_tasks: fail2ban.yml
   when: security_fail2ban_enabled | bool
-
-- include_tasks: cleanup-packages.yml
-
-- include_tasks: sysctl.yml
+#
+- name: Include tasks for kernel hardening via sysctl
+  ansible.builtin.include_tasks: sysctl.yml
   when:
     - ansible_connection != "docker"
     - ansible_connection != "podman"
     - ansible_connection != "container"
 
-- include_tasks: restrict-access.yml
-  when:
-    - (security_kern_hidepid_value | int == 1) or (security_kern_hidepid_value | int == 2)
-    - security_kern_hidepid_mount_opts is defined
+- name: Include tasks for setting up automatic updates
+  ansible.builtin.include_tasks: autoupdates-{{ ansible_os_family }}.yml
+  when: security_autoupdates_enabled | bool
 
-- include_tasks: autoupdates-{{ ansible_os_family }}.yml
-  when:
-    - security_autoupdates_enabled | bool
-    - not ansible_os_family == "Archlinux"
+- name: Include tasks for removing unneccessary packages
+  ansible.builtin.include_tasks: cleanup-packages.yml
 
-- include_tasks: limits.yml
-  when: security_disable_core_dumps | bool
+- name: Include tasks for restricting access to kernel processes and core dumps
+  ansible.builtin.include_tasks: restrict.yml
