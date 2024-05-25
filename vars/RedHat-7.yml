@@ -1,7 +1,0 @@
----
-# fail2ban-selinux doesn't exist in EL <= 7.
-security_fail2ban_packages:
-  - fail2ban
-  - fail2ban-firewalld
-
-procps_package_name: procps-ng
